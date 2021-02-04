@@ -1,0 +1,3 @@
+mutation AcceptRequest($id:Float!){
+        acceptRequest(id:$id)
+}

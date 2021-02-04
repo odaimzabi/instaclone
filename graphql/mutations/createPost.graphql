@@ -1,0 +1,8 @@
+mutation CreatePost($creator:String!,$details:String!,$imgSrc:String!){
+  createPost(creator:$creator,details:$details,imgSrc:$imgSrc){
+    id
+    details
+    imgSrc
+    creator
+  }
+}

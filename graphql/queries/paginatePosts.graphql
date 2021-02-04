@@ -1,0 +1,14 @@
+
+
+query paginatePosts($page:Float!){
+    paginatePosts(page:$page){
+        posts{
+            id
+            creator
+            details
+            imgSrc
+        }
+        nextPage
+     
+    }
+}

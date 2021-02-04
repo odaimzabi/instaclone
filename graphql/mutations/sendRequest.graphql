@@ -1,0 +1,7 @@
+mutation sendRequest($to:String!){
+    sendFollowRequest(to:$to){
+         id
+        userId
+        from
+    }
+}

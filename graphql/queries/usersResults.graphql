@@ -1,0 +1,9 @@
+
+
+query userResults($term:String!){
+    getUsersByTerm(term:$term){
+        username
+        id
+        
+    }
+}

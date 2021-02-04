@@ -1,0 +1,6 @@
+subscription FollowRequestSent{
+    followRequestSent{
+        userId
+        from
+    }
+}

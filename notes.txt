@@ -1,0 +1,2 @@
+npm i redux react-redux redux-thunk
+npm i -D redux-logger @types/react-redux @types/redux-logger

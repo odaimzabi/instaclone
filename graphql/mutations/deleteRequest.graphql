@@ -1,0 +1,3 @@
+mutation deleteRequest($id:Float!){
+    deleteRequest(id:$id)
+}

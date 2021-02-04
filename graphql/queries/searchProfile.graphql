@@ -1,0 +1,15 @@
+query SearchProfile($username:String!){
+    searchProfile(username:$username){
+       user{
+    username
+     id
+    Followers{
+      username
+      id
+    }
+
+        }
+         isFollowing
+    isRequested
+    }
+}

@@ -1,0 +1,15 @@
+query Me{
+  me{
+    username
+    id
+    Followers{
+      username
+      id
+    }
+    Requests{
+      id
+      userId
+      from
+    }
+  }
+}

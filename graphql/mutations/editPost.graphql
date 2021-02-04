@@ -1,0 +1,4 @@
+
+mutation EditPost($id:String!,$details:String!){
+    editPost(id:$id,details:$details)
+}
