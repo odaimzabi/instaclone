@@ -28,18 +28,12 @@ type Props = {
 const Layout = ({ children, title = 'This is the default title' }: Props) => {
 
 const { isOpen, onOpen, onClose } = useDisclosure()
-const [{fetching,data}]=useMeQuery({requestPolicy:"cache-first"})
+const [{fetching,data}]=useMeQuery()
 const [,deleteRequest]=useDeleteRequestMutation()
 const [,acceptRequest]=useAcceptRequestMutation()
 const [scrollBehavior, setScrollBehavior] = React.useState("inside")
 const [value,setValue]=useState("")
 const toast=useToast()
-
-  useEffect(()=>{
-    if (!fetching && !data?.me){
-      Router.push('/login')
-    }
-  },[data])
 
 
   useEffect(()=>{
@@ -53,9 +47,7 @@ const toast=useToast()
 
   },[])
 
-  if (fetching){
-   
-  }
+  
 return(
   <div>
     <Head>

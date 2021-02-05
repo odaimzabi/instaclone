@@ -7,10 +7,18 @@ import { useFollowRequestSentSubscription, useMeQuery, usePaginatePostsQuery } f
 import { withUrqlClient } from 'next-urql'
 import {urqlClient}  from '../utils/urqlClient'
 import { useToast } from "@chakra-ui/react"
+import Router from 'next/router'
 
 const IndexPage = () =>{ 
 
   const toast=useToast()
+  const [{fetching:loading,data:me}]=useMeQuery({requestPolicy:"cache-first"})
+
+  useEffect(()=>{
+    if (!loading && !me?.me){
+      Router.push('/login')
+    }
+  },[me])
 
 
 

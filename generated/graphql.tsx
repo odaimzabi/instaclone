@@ -255,6 +255,19 @@ export type SendRequestMutation = (
   )> }
 );
 
+export type SignUpMutationVariables = Exact<{
+  userDetails: UserData;
+}>;
+
+
+export type SignUpMutation = (
+  { __typename?: 'Mutation' }
+  & { signUp: (
+    { __typename?: 'User' }
+    & Pick<User, 'username' | 'id'>
+  ) }
+);
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -420,6 +433,18 @@ export const SendRequestDocument = gql`
 
 export function useSendRequestMutation() {
   return Urql.useMutation<SendRequestMutation, SendRequestMutationVariables>(SendRequestDocument);
+};
+export const SignUpDocument = gql`
+    mutation signUp($userDetails: UserData!) {
+  signUp(userDetails: $userDetails) {
+    username
+    id
+  }
+}
+    `;
+
+export function useSignUpMutation() {
+  return Urql.useMutation<SignUpMutation, SignUpMutationVariables>(SignUpDocument);
 };
 export const MeDocument = gql`
     query Me {

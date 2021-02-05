@@ -1,22 +1,28 @@
-import { Box, Button, Flex, Input } from '@chakra-ui/react'
+import { Box, Button, Flex, Heading, Input, Link,Text, useToast } from '@chakra-ui/react'
 import {Formik} from 'formik'
+import { withUrqlClient } from 'next-urql';
 import Head from 'next/head';
+import Router from 'next/router';
 import React from 'react'
+import { useSignUpMutation } from '../generated/graphql';
+import { urqlClient } from '../utils/urqlClient';
 
 
-export default function signup(){
+ function signup(){
 
 
-    
+    const [{fetching},signUp]=useSignUpMutation()
+    const toast=useToast()
       return (
         
-        <Box w="100%" display="flex" alignItems="center" justifyContent="center" pos="absolute" top="50%" left="50%" transform="translate(-50%,-50%)" mt="15rem">
+        <Box w="100%" display="flex" alignItems="center" justifyContent="center" pos="absolute" top="50%" left="50%" transform="translate(-50%,-50%)" mt="15rem" flexDir="column">
+          <Heading mb="1rem">Sign Up</Heading>
           <Head>
           <title>Sign Up</title>
         </Head>
         <Formik
 
-       initialValues={{ email: '', password: '' }}
+       initialValues={{ email: '', password: '',username:"" }}
 
        validate={values => {
 
@@ -32,6 +38,10 @@ export default function signup(){
             errors.password='Required'
         }
 
+        if (!values.username){
+          errors.username='Required'
+      }
+
          if (
 
            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
@@ -46,15 +56,17 @@ export default function signup(){
 
        }}
 
-       onSubmit={(values, { setSubmitting }) => {
+       onSubmit={ async (values, { setSubmitting }) => {
 
-         setTimeout(() => {
-
-           alert(JSON.stringify(values, null, 2));
-
+          const response=await signUp({userDetails:values as any})
+            if (response.error?.message){
+                toast({description:"User already Exist! Please choose another Email",status:"error"})
+            }
+          if (response.data?.signUp!=null){
+            Router.push('/login')
+          }
            setSubmitting(false);
 
-         }, 400);
 
        }}
 
@@ -100,7 +112,23 @@ export default function signup(){
                 isInvalid={errors.email?true:false}
            />
 
-           {errors.email && touched.email && errors.email}
+<Input
+
+type="text"
+
+name="username"
+
+onChange={handleChange}
+
+placeholder="Username"
+
+onBlur={handleBlur}
+
+isInvalid={errors.username?true:false}
+
+value={values.username}
+mb="1rem"
+/>
 
            <Input
 
@@ -120,15 +148,22 @@ export default function signup(){
              mb="1rem"
            />
 
-           {errors.password && touched.password && errors.password}
 
-           <Button type="submit" colorScheme="teal" disabled={isSubmitting}>
+            
+
+           <Button type="submit" colorScheme="teal" isLoading={isSubmitting}>
 
              Submit
 
            </Button>
 
+           <Flex mt="1rem">
+            <Text>Already have an account?</Text> <Link href="/login" color="teal.500" ml="0.5rem">Login</Link>
+            </Flex>
+
          </form>
+
+         
 
        )}
 
@@ -137,5 +172,6 @@ export default function signup(){
       )
     }
 
+    export default withUrqlClient(urqlClient,{ssr:false})(signup)
 
 

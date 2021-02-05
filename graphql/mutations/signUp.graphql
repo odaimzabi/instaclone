@@ -1,0 +1,7 @@
+
+mutation signUp($userDetails:UserData!){
+    signUp(userDetails:$userDetails){
+        username
+        id
+    }
+}

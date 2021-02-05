@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Input } from '@chakra-ui/react'
+import { Box, Button, Flex, Heading, Input, Link,Text, useToast} from '@chakra-ui/react'
 import {Formik} from 'formik'
 import React from 'react'
 import { inMemoryToken } from '../auth/authToken'
@@ -13,10 +13,12 @@ import Head from 'next/head'
   
 
       const [{fetching:loading},login]=useLoginMutation()
+      const toast=useToast()
       return (
  
 
-        <Box w="100%" display="flex" alignItems="center" justifyContent="center" pos="absolute" top="50%" left="50%" transform="translate(-50%,-50%)" mt="15rem">
+        <Box w="100%" display="flex" alignItems="center" justifyContent="center" pos="absolute" top="50%" left="50%" transform="translate(-50%,-50%)" mt="15rem" flexDir="column">
+          <Heading mb="1rem">Login</Heading>
           <Head>
           <title>Login</title>
         </Head>
@@ -54,7 +56,11 @@ import Head from 'next/head'
 
        onSubmit={ async(values, { setSubmitting }) => {
              const response=await login(values as any)
-             localStorage.setItem('token',response.data?.login.accessToken as string)
+             if (response?.error?.message){
+                toast({description:"Wrong password or Username",status:"error"})
+                
+             }
+             localStorage.setItem('token',response.data?.login.accessToken as any)
              Router.push('/')
        }}
 
@@ -127,7 +133,9 @@ import Head from 'next/head'
              Submit
 
            </Button>
-
+           <Flex mt="1rem">
+            <Text>Don't have an account?</Text> <Link href="/signup" color="teal.500" ml="0.5rem">Sign Up</Link>
+            </Flex>
          </form>
 
        )}
