@@ -12,7 +12,7 @@ import Router from 'next/router'
 const IndexPage = () =>{ 
 
   const toast=useToast()
-  const [{fetching:loading,data:me}]=useMeQuery({requestPolicy:"cache-first"})
+  const [{fetching:loading,data:me}]=useMeQuery()
 
   useEffect(()=>{
     if (!loading && !me?.me){

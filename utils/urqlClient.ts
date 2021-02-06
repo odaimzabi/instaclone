@@ -11,7 +11,6 @@ import login from "../pages/login";
 const subscriptionClient = process.browser? new SubscriptionClient('wss://instaclone-backend-graphql.herokuapp.com/', { reconnect: true,connectionParams:{
   authorization:`bearer ${getToken()}`
 },lazy:true}):null; 
-console.log(subscriptionClient)
 export const simplePagination = (): Resolver => {
 
   return (_parent, fieldArgs, cache, info) => {
@@ -61,8 +60,8 @@ export const urqlClient=(ssrExchange:any,_ctx:any)=>({
           authorization:getToken()?`bearer ${getToken()}`:""
         }
     },
-    
-    exchanges:[dedupExchange, cacheExchange({
+    suspense:true,
+    exchanges:[cacheExchange({
       
         updates:{
           Mutation:{
